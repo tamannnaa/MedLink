@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Doctor</title>
+    <style>
+        /* App-like design for Doctor-Patient Portal */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f5f5fa); /* Gradient background */
+            overflow-x: hidden;
+            scroll-behavior: smooth; /* Smooth scrolling behavior */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4f6367;
+        }
+
+        .doctor-details {
+            background: #ffffff; /* Clean white background for contrast */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .doctor-details p {
+            font-size: 1.1em;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .document-img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #42a5f5; /* Bright blue color for contrast */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+            border: none; /* Remove border */
+        }
+
+        .button:hover {
+            background-color: #1e88e5; /* Darker blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Doctor Details</h1>
+        <div class="doctor-details">
+            <p>Name: <%= doctor.name %></p>
+            <p>Email: <%= doctor.email %></p>
+            <p>Phone: <%= doctor.phone %></p>
+            <p>Specialization: <%= doctor.specialization %></p>
+            <p>Status: <%= doctor.status %></p>
+            <% if (doctor.documents.length > 0) { %>
+                <h2>Documents</h2>
+                <img class="document-img" src="<%= doctor.documents[0].fileUrl %>" alt="Doctor Document" />
+            <% } %>
+        </div>
+        <button class="button" onclick="location.href='/admindashboard'">Go Back</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <style>
+        /* Basic styling for profile page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+        }
+        
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #4f6367;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #4f6367;
+            border-bottom: 2px solid #c6e2ff;
+            padding-bottom: 5px;
+        }
+
+        .appointment, .record {
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment p, .record p {
+            margin: 5px 0;
+        }
+        /* Styling for logout button */
+        .logout-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4f6367;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .logout-button:hover {
+            background-color: #3a4c4d;
+        }
+        
+        .back-button,.cancel-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4f6367;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .cancel-button{
+            background-color: #3a4c4d;
+        }
+        .back-button:hover {
+            background-color: #3a4c4d;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <h1>Patient Profile - <%= patient.name %></h1>
+    
+        <!-- Appointments Section -->
+        <div class="section">
+            <h2>Upcoming Appointments</h2>
+    
+            <h3>Approved Appointments</h3>
+            <% if (approvedAppointments.length > 0) { %>
+                <% approvedAppointments.forEach(appointment => { %>
+                    <div class="appointment">
+                        <p><strong>Doctor:</strong> <%= appointment.doctorId.name %></p>
+                        <p><strong>Date:</strong> <%= appointment.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                        <p><strong>Time:</strong> <%= appointment.time %></p>
+                        <p><strong>Type:</strong> <%= appointment.type %></p>
+                        <p><strong>Status:</strong> <%= appointment.status %></p>
+                        <button class="cancel-button" onclick="cancelAppointment('<%= appointment._id %>')">Cancel Appointment</button>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No approved appointments.</p>
+            <% } %>
+    
+            <h3>Pending Appointments</h3>
+            <% if (pendingAppointments.length > 0) { %>
+                <% pendingAppointments.forEach(appointment => { %>
+                    <div class="appointment">
+                        <p><strong>Doctor:</strong> <%= appointment.doctorId.name %></p>
+                        <p><strong>Date:</strong> <%= appointment.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                        <p><strong>Time:</strong> <%= appointment.time %></p>
+                        <p><strong>Type:</strong> <%= appointment.type %></p>
+                        <p><strong>Status:</strong> <%= appointment.status %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No pending appointments.</p>
+            <% } %>
+        </div>
+        <h3>Canceled Appointments</h3>
+        <% if (canceledAppointments.length > 0) { %>
+            <% canceledAppointments.forEach(appointment => { %>
+                <div class="appointment">
+                    <p><strong>Doctor:</strong> <%= appointment.doctorId.name %></p>
+                    <p><strong>Date:</strong> <%= appointment.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                    <p><strong>Time:</strong> <%= appointment.time %></p>
+                    <p><strong>Type:</strong> <%= appointment.type %></p>
+                    <p><strong>Status:</strong> <%= appointment.status %></p>
+                </div>
+                <% }) %>
+                <% } else { %>
+                    <p>No canceled appointments.</p>
+                    <% } %>
+
+    
+        <!-- Records Section -->
+        <div class="section">
+            <h2>Previous Records & Reports</h2>
+            <% if (records.length > 0) { %>
+                <% records.forEach(record => { %>
+                    <div class="record">
+                        <p><strong>Date:</strong> <%= record.date.toDateString() %></p>
+                        <p><strong>Doctor:</strong> <%= record.doctorName %></p>
+                        <p><strong>Diagnosis:</strong> <%= record.diagnosis %></p>
+                        <p><strong>Prescribed Medication:</strong> <%= record.medication %></p>
+                        <p><strong>Notes:</strong> <%= record.notes %></p>
+                        <a href="/seereports/<%=record.mpd%>">View Reports</a>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No previous records found.</p>
+            <% } %>
+        </div>
+        <a href="/patientdashboard" class="back-button">Back to Dashboard</a>
+    <a href="/logout" class="logout-button">Logout</a>
+    </div>
+
+    <script>
+        function cancelAppointment(appointmentId) {
+            // Confirm with the user before canceling
+            if (!confirm("Are you sure you want to cancel this appointment?")) return;
+    
+            fetch(`/cancelAppointment/${appointmentId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ appointmentId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Appointment canceled successfully.");
+                    location.reload(); // Refresh the page to update the appointment list
+                } else {
+                    alert("Failed to cancel the appointment.");
+                }
+            })
+            .catch(error => {
+                console.error("Error canceling appointment:", error);
+                alert("An error occurred while canceling the appointment.");
+            });
+        }
+    </script>
+    
+</body>
+</html>

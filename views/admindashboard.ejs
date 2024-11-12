@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Doctor Patient Portal</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main container styling */
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Navigation links */
+        #doctors {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        #doctors a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #doctors a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Button styling */
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #218838;
+        }
+
+        /* Logout button styling */
+        .logout {
+            background-color: #4f6367;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .logout:hover {
+            background-color: #c82333;
+        }
+
+        /* Add a section for actions */
+        .actions {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .action-item {
+            background-color: #f0f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            width: 30%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-item h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .action-item p {
+            color: #555;
+        }
+
+        .action-item a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4f6367;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .action-item a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard - Doctor Patient Portal</h1>
+
+        <!-- New actions section -->
+        <div class="actions">
+            <div class="action-item">
+                <h3>Reject/Approve Doctors</h3>
+                <p>Approve or reject doctors.</p>
+                <a href="/adminviewdoctor">Manage Doctors</a>
+            </div>
+            <div class="action-item">
+                <h3>Upload Test Reports</h3>
+                <p>Upload and manage test reports for patients.</p>
+                <a href="/adminuploadreports">Upload Reports</a>
+            </div>
+            <div class="action-item">
+                <h3>View Appointments</h3>
+                <p>View and manage all patient appointments.</p>
+                <a href="/adminviewappointment">View Appointments</a>
+            </div>
+        </div>
+
+        <a href="/logout" class="button logout">Logout</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .appointments-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .appointments-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        
+        .tab-button.active {
+            background-color: #4f6367;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .appointment-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .approve-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .status {
+            font-weight: bold;
+        }
+        
+        .status.pending {
+            color: #ffc107;
+        }
+        
+        .status.approved {
+            color: #28a745;
+        }
+        
+        .status.rejected {
+            color: #dc3545;
+        }
+        </style>
+        
+</head>
+<body>
+    <div class="appointments-container">
+        <div class="appointments-tabs">
+            <button class="tab-button active" data-status="pending">Pending</button>
+            <button class="tab-button" data-status="approved">Approved</button>
+            <button class="tab-button" data-status="rejected">Rejected</button>
+        </div>
+    
+        <div class="appointments-list">
+            <% const statusGroups = { pending: [], approved: [], rejected: [] };
+   appointments.forEach(apt => {
+       if (statusGroups[apt.status]) {
+           statusGroups[apt.status].push(apt);
+       } else {
+           console.error('Invalid status:', apt.status);
+       }
+   }); %>
+
+            
+            <div class="tab-content pending active">
+                <h3>Pending Appointments</h3>
+                <% if (statusGroups.pending.length === 0) { %>
+                    <p>No pending appointments</p>
+                <% } else { %>
+                    <% statusGroups.pending.forEach(appointment => { %>
+                        <div class="appointment-card">
+                            <h3>MPD: <%= appointment.patientId.mpd %></h3>
+                            <h4>Patient Name: <%= appointment.patientId.name %></h4>
+                            <p>Date: <%= new Date(appointment.date).toLocaleDateString() %></p>
+                            <p>Time: <%= appointment.time %></p>
+                            <p>Type: <%= appointment.type %></p>
+                            <p>Phone: <%= appointment.patientId.phone %></p>
+                            <div class="action-buttons">
+                                <button onclick="updateAppointmentStatus('<%= appointment._id %>', 'approved')" class="approve-btn">
+                                    Approve
+                                </button>
+                                <button onclick="updateAppointmentStatus('<%= appointment._id %>', 'rejected')" class="reject-btn">
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+    
+            <div class="tab-content approved">
+                <h3>Approved Appointments</h3>
+                <% if (statusGroups.approved.length === 0) { %>
+                    <p>No approved appointments</p>
+                <% } else { %>
+                <% statusGroups.approved.forEach(appointment => { %>
+                    <div class="appointment-card">
+                        <h4><%= appointment.patientId.name %></h4>
+                        <p>Date: <%= new Date(appointment.date).toLocaleDateString() %></p>
+                        <p>Time: <%= appointment.time %></p>
+                        <p>Type: <%= appointment.type %></p>
+                        <p>Phone: <%= appointment.patientId.phone %></p>
+                        <a href="/uploadrecord?appointmentId=<%= appointment._id %>">Add Notes</a>
+                    </div>
+                <% }) %>
+                <% } %>
+            </div>
+            
+            <div class="tab-content rejected">
+                <h3>Rejected Appointments</h3>
+                <% if (statusGroups.rejected.length === 0) { %>
+                    <p>No rejected appointments</p>
+                <% } else { %>
+                <% statusGroups.rejected.forEach(appointment => { %>
+                    <div class="appointment-card">
+                        <h4><%= appointment.patientId.name %></h4>
+                        <p>Date: <%= new Date(appointment.date).toLocaleDateString() %></p>
+                        <p>Time: <%= appointment.time %></p>
+                        <p>Type: <%= appointment.type %></p>
+                        <p>Phone: <%= appointment.patientId.phone %></p>
+                    </div>
+                <% }) %>
+                <% } %>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+    // Update your existing booking form submission handler
+    document.querySelectorAll('.submit-appointment').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const form = e.target.closest('.booking-form');
+            const doctorItem = e.target.closest('.doctor-item');
+            const doctorId = doctorItem.dataset.doctorId;
+            
+            const date = form.querySelector('#appointment-date').value;
+            const time = form.querySelector('#appointment-time').value;
+            const type = form.querySelector('#appointment-type').value;
+    
+            try {
+                const response = await fetch('/book', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        doctorId,
+                        date,
+                        time,
+                        type
+                    })
+                });
+    
+                const data = await response.json();
+                if (data.success) {
+                    alert('Appointment booked successfully!');
+                    form.reset();
+                    form.style.display = 'none';
+                } else {
+                    alert('Error booking appointment: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error booking appointment');
+            }
+        });
+    });
+    
+    // Doctor's appointment management scripts
+    function updateAppointmentStatus(appointmentId, status) {
+        fetch(`/status/${appointmentId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                appointmentId,
+                status
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Appointment ${status} successfully`);
+                location.reload();
+            } else {
+                alert('Error updating appointment status: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error updating appointment status');
+        });
+    }
+    
+    // Tab switching functionality
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and content
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            const status = button.dataset.status;
+            document.querySelector(`.tab-content.${status}`).classList.add('active');
+        });
+    });
+    </script>
+    
+</body>
+</html>

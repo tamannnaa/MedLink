@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor-Patient Portal</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f5f5fa);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        @media (max-width: 768px) {
+            body, html{
+                padding: 0 20px 70px 0; 
+            }
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #c6e2ff, #e3f2fd);
+            color: #4f6367;
+            width: 100%;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+        }
+        .arrow {
+            position: absolute;
+            bottom: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+        .content-section {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .card-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 1200px;
+        }
+        .card {
+            background: #ffffff;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: calc(33.33% - 20px);
+            min-width: 280px;
+            max-width: 350px;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            color: #4f6367;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .card p {
+            font-size: 1em;
+            color: #7a7a7a;
+            margin: 0 0 15px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #42a5f5;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: bold;
+        }
+        .button:hover {
+            background-color: #1e88e5;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        @media (max-width: 1024px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 768px) {
+            .card {
+                width: 100%;
+            }
+            .hero h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Doctor-Patient Portal</h1>
+        <p>Your one-stop solution for virtual consultations and managing health records.</p>
+        <div class="arrow" onclick="scrollToCards()">&#8595;</div>
+    </div>
+
+    <div id="cards-section" class="content-section">
+        <div class="card-wrapper">
+            <div class="card">
+                <h2>Register as a Doctor</h2>
+                <p>Connect with patients, manage appointments, and provide virtual consultations.</p>
+                <a href="/doctorsign" class="button">Register as a Doctor</a>
+            </div>
+            <div class="card">
+                <h2>Register as a Patient</h2>
+                <p>Book appointments, manage your health records, and consult with doctors online.</p>
+                <a href="/patientsign" class="button">Register as a Patient</a>
+            </div>
+            <div class="card">
+                <h2>Admin Login</h2>
+                <p>Manage the platform, verify doctors, and securely monitor patient data.</p>
+                <a href="/adminlogin" class="button">Admin Login</a>
+            </div>
+            <div class="card">
+                <h2>Emergency Patient Form</h2>
+                <p>Fill out the form for emergency patient cases, ensuring urgent and secure data entry.</p>
+                <a href="/emergencyform" class="button">Fill Emergency Form</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToCards() {
+            document.getElementById('cards-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

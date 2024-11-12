@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Patient Record</title>
+    <style>
+        /* Apply a clean app-like theme */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #f5f5fa); /* Gradient background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    height: 100vh; /* Ensure full-screen height */
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+.form-container {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;           /* Takes up the full width of the viewport */
+    max-width: 700px;      /* Limits the maximum width */
+    min-width: 500px;      /* Sets a minimum width */
+}
+
+h1 {
+    color: #4f6367;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 1em;
+    color: #4f6367;
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #42a5f5;
+    outline: none;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #42a5f5;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #1e88e5;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Upload Patient Record</h1>
+        <form id="uploadForm" action="/uploadrecord" method="POST">
+            <input type="hidden" name="appointmentId" value="<%= appointmentId %>">
+
+            <label for="mpd">MPD:</label>
+            <input type="text" id="mpd" name="mpd" required>
+            
+            <label for="patientId">Patient ID:</label>
+            <input type="text" id="patientId" name="patientId" value="<%= patientId %>" readonly required>
+
+            <label for="doctorName">Doctor's Name:</label>
+            <input type="text" id="doctorName" name="doctorName" required>
+            
+            <label for="diagnosis">Diagnosis:</label>
+            <input type="text" id="diagnosis" name="diagnosis" required>
+            
+            <label for="medication">Prescribed Medication:</label>
+            <input type="text" id="medication" name="medication" required>
+
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes"></textarea>
+
+            <button type="submit">Upload Record</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approved Appointments</title>
+    <style>
+        .appointments-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .appointment-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .action-buttons {
+            margin-top: 10px;
+        }
+
+        a.add-notes-btn {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Search Box Styling */
+        #search {
+            display: block;
+            width: 100%;
+            padding: 12px; /* Increased padding for better usability */
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 15px; /* Adjusted border radius */
+            margin: 20px auto; /* Center the input */
+            font-size: 1em; /* Adjusted font size */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            width: 340px; /* Set a specific width */
+            padding: 12px; /* Increased padding for better usability */
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 15px; /* Adjusted border radius */
+            margin: 20px auto; /* Center the input */
+            font-size: 1em; /* Adjusted font size */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="date"], input[type="time"], select {
+            width: 140px; /* Set a specific width */
+            padding: 12px; /* Increased padding for better usability */
+            border: 1px solid #ccc;
+            text-align: center; /* Center the text */
+            border-radius: 15px; /* Adjusted border radius */
+            margin: 20px auto; /* Center the input */
+            font-size: 1em; /* Adjusted font size */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added box shadow for depth */
+        }
+
+        .details {
+            display: none; /* Hidden by default */
+            margin-top: 10px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            background-color: #f9f9f9; /* Light background for details */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            padding: 15px; /* Increased padding for better spacing */
+        }
+
+        .details h4 {
+            margin-bottom: 10px; /* Space between heading and details */
+            color: #4f6367; /* Heading color */
+        }
+
+        .details p {
+            margin: 5px 0; /* Space between paragraphs */
+            line-height: 1.5; /* Improved readability */
+        }
+    </style>
+</head>
+<body>
+    <div class="appointments-container">
+        <h2>Approved Appointments</h2>
+        
+        <!-- Search Input -->
+        <input type="text" id="search" placeholder="Search by Patient Name, Doctor Name or MPD">
+
+        <% if (appointments && appointments.length > 0) { %>
+            <div id="appointmentsList">
+                <% appointments.forEach(appointment => { %>
+                    <div class="appointment-card" data-patient-name="<%= appointment.patientId.name.toLowerCase() %>" 
+                        data-doctor-name="<%= appointment.doctorId.name.toLowerCase() %>" 
+                        data-mpd="<%= appointment.mpd %>">
+                        <h3>MPD: <%=appointment.mpd%></h3>
+                        <h3>Approved By: Dr. <%= appointment.doctorId.name %></h3>
+                        <p><strong>Patient Name: <%= appointment.patientId.name %></strong></p>
+                        <p>Date: <%= new Date(appointment.date).toLocaleDateString() %></p>
+                        <p>Time: <%= appointment.time %></p>
+                        <p>Type: <%= appointment.type %></p>
+                        <p>Phone: <%= appointment.patientId.phone %></p>
+                        <div class="action-buttons">
+                            <a href="/uploadrecord?appointmentId=<%= appointment._id %>" class="add-notes-btn">Add Notes</a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>No approved appointments available.</p>
+        <% } %>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search');
+        const appointmentList = document.getElementById('appointmentsList');
+        const appointmentItems = Array.from(appointmentList.children);
+    
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+    
+            appointmentItems.forEach(appointmentItem => {
+                const patientName = appointmentItem.getAttribute('data-patient-name');
+                const doctorName = appointmentItem.getAttribute('data-doctor-name');
+                const mpd = appointmentItem.getAttribute('data-mpd');
+    
+                if (patientName.includes(searchTerm) || doctorName.includes(searchTerm) || mpd.includes(searchTerm)) {
+                    appointmentItem.style.display = '';
+                } else {
+                    appointmentItem.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+Cannot GET /uploads/test_reports/1730887513472.jpeg

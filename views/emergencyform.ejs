@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident Medical Form</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f5f5fa);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h3 {
+            color: #4f6367;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 1em;
+            color: #4f6367;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="tel"]:focus,
+        input[type="datetime-local"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #42a5f5;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #42a5f5;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #1e88e5;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .checkbox-group {
+            margin-bottom: 20px;
+        }
+
+        .radio-group {
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input,
+        .radio-group input {
+            margin-right: 10px;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-section label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .payment-section input[type="text"],
+        .payment-section input[type="number"],
+        .payment-section input[type="tel"] {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h3>Personal Information</h3>
+        <form action="/submit-form" method="POST">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required><br><br>
+            
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required><br><br>
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="Select">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select><br><br>
+            
+            <label for="emergencyContactName">Emergency Contact Name:</label>
+            <input type="text" id="emergencyContactName" name="emergencyContactName" required><br><br>
+            
+            <label for="emergencyContactPhone">Emergency Contact Phone:</label>
+            <input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" required><br><br>
+            
+            <h3>Medical History</h3>
+            <label>Do you have any of the following conditions? (Please check all that apply):</label><br>
+            <div class="checkbox-group">
+                <input type="checkbox" id="diabetes" name="medicalHistory" value="Diabetes">
+                <label for="diabetes">Diabetes</label><br>
+
+                <input type="checkbox" id="heartDisease" name="medicalHistory" value="Heart Disease">
+                <label for="heartDisease">Heart Disease</label><br>
+
+                <input type="checkbox" id="allergies" name="medicalHistory" value="Allergies">
+                <label for="allergies">Allergies</label><br>
+
+                <input type="checkbox" id="hypertension" name="medicalHistory" value="Hypertension">
+                <label for="hypertension">Hypertension</label><br>
+
+                <input type="checkbox" id="asthma" name="medicalHistory" value="Asthma">
+                <label for="asthma">Asthma</label><br>
+
+                <label for="otherConditions">Other:</label>
+                <input type="text" id="otherConditions" name="otherConditions"><br><br>
+            </div>
+            
+            <h3>Consent for Treatment</h3>
+            <label>I, the undersigned, give consent for the necessary medical treatment and/or surgery:</label><br>
+            <div class="radio-group">
+                <input type="radio" id="consentYes" name="consentTreatment" value="Yes" required>
+                <label for="consentYes">Yes</label><br>
+
+                <input type="radio" id="consentNo" name="consentTreatment" value="No" required>
+                <label for="consentNo">No</label><br><br>
+            </div>
+
+            <h3>Accident Details</h3>
+            <label for="injuryDateTime">Date and Time of Injury:</label>
+            <input type="datetime-local" id="injuryDateTime" name="injuryDateTime" required><br><br>
+
+            <label for="injuryDescription">Description of Injury:</label>
+            <textarea id="injuryDescription" name="injuryDescription" rows="4" required></textarea><br><br>
+
+            <label>Severity of Injury:</label><br>
+            <div class="radio-group">
+                <input type="radio" id="mild" name="severity" value="Mild" required>
+                <label for="mild">Mild</label><br>
+
+                <input type="radio" id="moderate" name="severity" value="Moderate" required>
+                <label for="moderate">Moderate</label><br>
+
+                <input type="radio" id="severe" name="severity" value="Severe" required>
+                <label for="severe">Severe</label><br><br>
+            </div>
+
+            <h3>Consent for Anesthesia</h3>
+            <label>I consent to anesthesia and understand the associated risks:</label><br>
+            <div class="radio-group">
+                <input type="radio" id="anesthesiaYes" name="consentAnesthesia" value="Yes" required>
+                <label for="anesthesiaYes">Yes</label><br>
+
+                <input type="radio" id="anesthesiaNo" name="consentAnesthesia" value="No" required>
+                <label for="anesthesiaNo">No</label><br><br>
+            </div>
+            <button type="button" class="button" onclick="togglePaymentForm()">Book a Bed</button><br>
+            <!-- Payment Section -->
+        <div class="payment-section" id="paymentSection">
+            <h3>Payment for Bed</h3>
+            <label for="paymentAmount">Amount to Pay:</label>
+            <input type="number" id="paymentAmount" name="paymentAmount" value="1000" placeholder="1000" readonly required><br><br>
+
+
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter card number" required><br><br>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required><br><br>
+
+            <label for="cvv">CVV:</label>
+            <input type="number" id="cvv" name="cvv" placeholder="Enter CVV" required><br><br>
+
+            <button type="submit" class="button">Make Payment</button>
+        </div><br>
+            <button type="submit" class="button">Submit</button>
+        </form>
+
+    </div>
+
+    <script>
+        function togglePaymentForm() {
+            var paymentForm = document.getElementById("paymentSection");
+            paymentForm.style.display = paymentForm.style.display === "none" || paymentForm.style.display === "" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>

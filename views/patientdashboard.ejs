@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <style>
+        /* App-like design for Patient Dashboard */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f5f5fa);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #c6e2ff, #e3f2fd);
+            color: #4f6367;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-list {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .doctor-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: transform 0.2s;
+            position: relative; /* For absolute positioning of buttons */
+        }
+
+        .doctor-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            margin: 5px 0; /* Spacing between buttons */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4f6367;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3c4a4f;
+        }
+
+        .details, .booking-form {
+            display: none; /* Hidden by default */
+            margin-top: 10px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+        #search{
+            display: block;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        input[type="text"] {
+            width: 340px; /* Set a specific width */
+            padding: 12px; /* Increased padding for better usability */
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 15px; /* Adjusted border radius */
+            margin: 20px auto; /* Center the input */
+            /* display: block; Make the input block to center */
+            font-size: 1em; /* Adjusted font size */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="date"], input[type="time"], select {
+    width: 140px; /* Set a specific width */
+    padding: 12px; /* Increased padding for better usability */
+    border: 1px solid #ccc;
+    text-align: center; /* Center the text */
+    border-radius: 15px; /* Adjusted border radius */
+    margin: 20px auto; /* Center the input */
+    /* display: block; Make the input block to center */
+    font-size: 1em; /* Adjusted font size */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added box shadow for depth */
+}
+.details {
+    display: none; /* Hidden by default */
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    background-color: #f9f9f9; /* Light background for details */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 15px; /* Increased padding for better spacing */
+}
+
+.details h4 {
+    margin-bottom: 10px; /* Space between heading and details */
+    color: #4f6367; /* Heading color */
+}
+
+.details p {
+    margin: 5px 0; /* Space between paragraphs */
+    line-height: 1.5; /* Improved readability */
+}
+
+
+    </style>
+</head>
+<body>
+    
+    <div class="hero">
+        <h1>Welcome, <%= patient.name %></h1>
+        <p>Search for doctors and manage your health.</p>
+        <button onclick="window.location.href='/patientprofile'" style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #4f6367; color: white; cursor: pointer; margin-top: 20px;">
+            Profile
+        </button>
+    </div>
+
+    <h2 style="text-align: center;">Search Doctors</h2>
+    <input type="text" id="search" placeholder="Search by name, specialization, or address">
+    
+    <div class="doctor-list" id="doctorList">
+        <% doctors.forEach(doctor => { %>
+            <div class="doctor-item" data-doctor-id="<%= doctor.id %>">
+                <h3><%= doctor.name %></h3>
+                <p>Specialization: <%= doctor.specialization %></p>
+                <p>Clinic: <%= doctor.clinicDetails.name %></p>
+                <p>Address: <%= doctor.clinicDetails.address %></p>
+                
+                <button class="view-details">View Doctor Details</button>
+                <button class="book-appointment">Book Appointment</button>
+
+                <div class="details">
+                    <!-- <h4>Doctor Details</h4>
+                    <p><strong>ID:</strong> <%= doctor.id %></p> -->
+                    <p><strong>Specialization:</strong> <%= doctor.specialization %></p>
+                    <p><strong>Experience:</strong> <%= doctor.experience %> years</p>
+                    <p><strong>Contact:</strong> <%= doctor.phone %></p>
+                    <p><strong>Clinic Name:</strong> <%= doctor.clinicDetails.name %></p>
+                    <p><strong>Clinic Address:</strong> <%= doctor.clinicDetails.address %></p>
+                    <p><strong>Clinic Phone:</strong> <%= doctor.clinicDetails.phone %></p>
+                </div>
+                
+                
+                <div class="booking-form">
+                    <h4>Book an Appointment</h4>
+                    <div class="form-group">
+                        <label for="appointment-date">Select Date:</label>
+                        <input type="date" id="appointment-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-time">Select Time:</label>
+                        <input type="time" id="appointment-time">
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-type">Select Type:</label>
+                        <select id="appointment-type">
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
+                        </select>
+                    </div>
+                    <button class="submit-appointment">Submit</button>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search');
+        const doctorList = document.getElementById('doctorList');
+        const doctorItems = Array.from(doctorList.children);
+    
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+    
+            doctorItems.forEach(doctorItem => {
+                const doctorName = doctorItem.querySelector('h3').textContent.toLowerCase();
+                const specialization = doctorItem.querySelector('p:nth-of-type(1)').textContent.toLowerCase();
+                const clinicName = doctorItem.querySelector('p:nth-of-type(2)').textContent.toLowerCase();
+                const address = doctorItem.querySelector('p:nth-of-type(3)').textContent.toLowerCase();
+    
+                if (doctorName.includes(searchTerm) || specialization.includes(searchTerm) || clinicName.includes(searchTerm) || address.includes(searchTerm)) {
+                    doctorItem.style.display = '';
+                } else {
+                    doctorItem.style.display = 'none';
+                }
+            });
+        });
+    
+        // Handle "View Doctor Details" button click
+        doctorItems.forEach(item => {
+            item.querySelector('.view-details').addEventListener('click', () => {
+                const detailsDiv = item.querySelector('.details');
+                detailsDiv.style.display = detailsDiv.style.display === 'none' || detailsDiv.style.display === '' ? 'block' : 'none';
+            });
+    
+            // Move the appointment booking logic outside the item loop
+            item.querySelector('.book-appointment').addEventListener('click', () => {
+                const bookingForm = item.querySelector('.booking-form');
+                bookingForm.style.display = bookingForm.style.display === 'none' || bookingForm.style.display === '' ? 'block' : 'none';
+            });
+    
+            // Now we add the submit handler only once
+            item.querySelector('.submit-appointment').addEventListener('click', async () => {
+                const doctorId = item.getAttribute('data-doctor-id');
+                const date = item.querySelector('#appointment-date').value;
+                const time = item.querySelector('#appointment-time').value;
+                const type = item.querySelector('#appointment-type').value;
+    
+                const appointmentData = {
+                    doctorId,
+                    patientId: '<%= patient.id %>', // Patient ID from EJS
+                    date,
+                    time,
+                    type
+                };
+    
+                // Check if the date and time are filled before submitting
+                if (!date || !time) {
+                    alert("Please select a date and time.");
+                    return;
+                }
+    
+                try {
+                    const response = await fetch('/book', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(appointmentData)
+                    });
+    
+                    if (response.ok) {
+                        alert("Appointment requested, please wait for confirmation.");
+                        item.querySelector('.booking-form').style.display = 'none';
+    
+                        // Clear form
+                        item.querySelector('#appointment-date').value = '';
+                        item.querySelector('#appointment-time').value = '';
+                        item.querySelector('#appointment-type').value = 'online';
+                    } else {
+                        const data = await response.json();
+                        alert(data.message || "Failed to request appointment. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    </script>
+    
+    
+</body>
+</html>
