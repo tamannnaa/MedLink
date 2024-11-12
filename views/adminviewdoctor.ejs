@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* App-like design for Doctor Approval Section */
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f5f5fa); /* Gradient background */
+            overflow-x: hidden;
+            scroll-behavior: smooth; /* Smooth scrolling behavior */
+        }
+
+        h1 {
+            text-align: center;
+            color: #4f6367;
+            margin-top: 20px;
+        }
+        h2 {
+            text-align: center; /* Center the h2 headings */
+            color: #4f6367; /* Consistent color with h1 */
+            margin: 20px 0; /* Add some space around the h2 headings */
+        }
+
+        .doctor-cards {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin-bottom: 40px; /* Space between the end of the page and cards */
+        }
+
+        .card-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 1200px;
+        }
+
+        .doctor-card {
+            background: #ffffff; /* Clean white background for contrast */
+            padding: 20px 15px; /* Increased padding for taller cards */
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: calc(33.33% - 20px); /* Three cards per row on larger screens */
+            min-width: 280px;
+            max-width: 350px;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .doctor-card h3 {
+            color: #4f6367;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #42a5f5; /* Bright blue color for contrast */
+            color: white;
+            text-decoration: none;
+            border: none; /* Remove border */
+            border-radius: 12px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-weight: bold;
+            margin: 5px; /* Margin for spacing between buttons */
+        }
+
+        .button:hover {
+            background-color: #1e88e5; /* Darker blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 1024px) {
+            .doctor-card {
+                width: calc(50% - 20px); /* Two cards per row on medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .doctor-card {
+                width: 100%; /* One card per row on small screens */
+            }
+            h1 {
+                font-size: 2em; /* Smaller title for small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor Approval Section</h1>
+
+    <% if(pendingDoctors && pendingDoctors.length > 0) { %>
+    <h2>Pending Doctors</h2>
+    <div class="doctor-cards">
+        <div class="card-wrapper">
+            <% pendingDoctors.forEach(doctor => { %>
+                <div class="doctor-card">
+                    <h3><%= doctor.name %></h3>
+                    <h4><%= doctor.email %></h4>
+                    <button class="button" onclick="location.href='/viewdoctor/<%= doctor._id %>'">View Doctor</button>
+                    <button class="button" onclick="location.href='/approve/<%= doctor._id %>'">Approve Doctor</button>
+                    <button class="button" onclick="location.href='/reject/<%= doctor._id %>'">Reject Doctor</button>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <% } %>
+
+    <% if(approvedDoctors && approvedDoctors.length > 0) { %>
+    <h2>Approved Doctors</h2>
+    <div class="doctor-cards">
+        <div class="card-wrapper">
+            <% approvedDoctors.forEach(doctor => { %>
+                <div class="doctor-card">
+                    <h3><%= doctor.name %></h3>
+                    <h4><%= doctor.email %></h4>
+                    <button class="button" onclick="location.href='/viewdoctor/<%= doctor._id %>'">View Doctor</button>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <% } %>
+
+    <% if(rejectedDoctors && rejectedDoctors.length > 0) { %>
+    <h2>Rejected Doctors</h2>
+    <div class="doctor-cards">
+        <div class="card-wrapper">
+            <% rejectedDoctors.forEach(doctor => { %>
+                <div class="doctor-card">
+                    <h3><%= doctor.name %></h3>
+                    <h4><%= doctor.email %></h4>
+                    <button class="button" onclick="location.href='/viewdoctor/<%= doctor._id %>'">View Doctor</button>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <% } %>
+</body>
+</html>

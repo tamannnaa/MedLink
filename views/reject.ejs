@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Rejected</title>
+    <style>
+        /* App-like design for Doctor Rejected Page */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f5f5fa);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #4f6367;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #7a7a7a;
+            margin-bottom: 30px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .reason {
+            font-size: 1.1em;
+            color: #e57373;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            font-style: italic;
+        }
+
+        a {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #42a5f5;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            background-color: #1e88e5;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor Rejected</h1>
+    <p>The doctor <strong><%= doctor.name %></strong> has been rejected.</p>
+    <p class="reason">Rejection Reason: <%= doctor.rejectionReason %></p>
+    <a href="/admindashboard">Go Back to Dashboard</a>
+</body>
+</html>

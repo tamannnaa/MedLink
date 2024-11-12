@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="appointments-container">
+        <h2>My Appointments</h2>
+        <div class="appointments-list">
+            <% appointments.forEach(appointment => { %>
+                <div class="appointment-card">
+                    <h3>Dr. <%= appointment.doctorId.name %></h3>
+                    <p>Specialization: <%= appointment.doctorId.specialization %></p>
+                    <p>Date: <%= new Date(appointment.date).toLocaleDateString() %></p>
+                    <p>Time: <%= appointment.time %></p>
+                    <p>Type: <%= appointment.type %></p>
+                    <p class="status <%= appointment.status %>">Status: <%= appointment.status.toUpperCase() %></p>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>

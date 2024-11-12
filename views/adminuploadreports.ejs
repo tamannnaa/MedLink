@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Test Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"], input[type="date"], input[type="file"], textarea {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        .add-report-btn {
+            background-color: #4f6367;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        .add-report-btn:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #4f6367;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+        .logout {
+    background-color: #4f6367; /* Red color for logout */
+    color: white; /* White text */
+    padding: 12px 20px; /* Add some padding for better clickable area */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Make text bold */
+    text-align: center; /* Center text */
+    display: inline-block; /* Keep it inline with other elements */
+    width: 50px; /* Make the button span the entire width */
+    text-decoration: none; /* Remove underline */
+    margin-top: 20px; /* Space from other content */
+}
+
+.logout:hover {
+    background-color: #c82333; /* Darker red on hover */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.logout:focus {
+    outline: none; /* Remove the outline when button is focused */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Test Reports</h1>
+        <form action="/adminuploadreports" method="POST" enctype="multipart/form-data">
+
+            <!-- MPD Field -->
+            <div>
+                <h3><label for="mpd">MPD</label></h3>
+                <input type="text" id="mpd" name="mpd" required>
+            </div>
+
+            <!-- Date Field -->
+            <div>
+                <h3><label for="date">Date</label></h3>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <!-- Test Reports Section -->
+            <div id="test-reports-container">
+                <div class="test-report">
+                    <h2>Test Report</h2>
+                    <label for="reportType">Report Type</label><br><br>
+                    <input type="text" name="reportType" required><br><br>
+
+                    <label for="reportDate">Report Date</label><br><br>
+                    <input type="date" name="reportDate" required><br><br>
+
+                    <label for="reportFile">Upload Report File</label><br><br>
+                    <input type="file" name="test_reports" multiple required>
+                </div>
+            </div>
+
+            <!-- Button to add more report fields -->
+            <button type="button" class="add-report-btn" id="add-report-btn">Add Another Report</button>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+
+        <a href="/logout" class="button logout">Logout</a>
+    </div>
+
+    <script>
+        // JavaScript to dynamically add more report fields
+        document.getElementById('add-report-btn').addEventListener('click', function() {
+            const container = document.getElementById('test-reports-container');
+            const newReportDiv = document.createElement('div');
+            newReportDiv.classList.add('test-report');
+            newReportDiv.innerHTML = `
+                <h3>Test Report</h3>
+                <label for="reportType">Report Type</label>
+                <input type="text" name="reportType[]" required>
+                
+                <label for="reportDate">Report Date</label>
+                <input type="date" name="reportDate[]" required>
+                
+                <label for="reportFile">Upload Report File</label>
+                <input type="file" name="reportFile[]" required>
+            `;
+            container.appendChild(newReportDiv);
+        });
+    </script>
+</body>
+</html>

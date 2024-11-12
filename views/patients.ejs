@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Medical History</title>
+    <style>
+        /* Basic styling for patients page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+        }
+        
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #4f6367;
+            text-align: center;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 8px;
+            font-size: 1em;
+            width: 80%;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #4f6367;
+            border-bottom: 2px solid #c6e2ff;
+            padding-bottom: 5px;
+        }
+
+        .appointment, .record {
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment p, .record p {
+            margin: 5px 0;
+        }
+        
+        /* Navbar Styling */
+        nav {
+            width: 100vw; /* Full width of the viewport */
+            position: fixed; /* Fixed at the top */
+            top: 0;
+            left: 0;
+            background-color: #4f6367; /* Dark grey background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Make sure it stays on top of other elements */
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 15px 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.3s, background-color 0.3s, transform 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #62829d; /* Bright blue on hover */
+            color: white;
+            transform: scale(1.05); /* Slight scale on hover */
+            border-radius: 15px;
+        }
+
+        nav ul li a:active {
+            background-color: #1e88e5; /* Darker blue on active */
+            transform: scale(1); /* Reset scale on click */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/doctordashboard">Home</a></li>
+            <li><a href="/doctorappointments">Appointments</a></li>
+            <li><a href="/patients">Patients</a></li>
+            <li><a href="/doctorprofile">Profile</a></li> <!-- Profile Button -->
+        </ul>
+    </nav><br><br><br><br>
+    <div class="profile-container">
+        <h1>Patient Medical History</h1>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="mpdSearch" placeholder="Search by MPD..." onkeyup="filterByMpd()">
+        </div>
+
+        <!-- Patient Records -->
+        <div id="recordsContainer">
+            <% patients.forEach(patient => { %>
+                <% if (patient.medicalHistory && patient.medicalHistory.length > 0) { %>
+                    <div class="section" data-mpd="<%= patient.mpd %>">
+                        <h2><%= patient.name %> - <%= patient.mpd %></h2>
+                        <h4>Medical History</h4>
+                        <% patient.medicalHistory.forEach(record => { %>
+                            <div class="record">
+                                <p><strong>Diagnosis:</strong> <%= record.diagnosis %></p>
+                                <p><strong>Prescriptions:</strong> <%= record.prescriptions.join(', ') %></p>
+                                <p><strong>Date:</strong> <%= new Date(record.appointmentDate).toLocaleDateString() %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            <% }) %>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript function to filter by MPD
+        function filterByMpd() {
+            const searchValue = document.getElementById('mpdSearch').value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+
+            sections.forEach(section => {
+                const mpd = section.getAttribute('data-mpd');
+                if (mpd.includes(searchValue)) {
+                    section.style.display = ''; // Show section
+                } else {
+                    section.style.display = 'none'; // Hide section
+                }
+            });
+        }
+    </script>
+</body>
+</html>

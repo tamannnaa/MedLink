@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Reports for <%= patient.name %></title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+        }
+
+        .reports-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #4f6367;
+            text-align: center;
+        }
+
+        .report-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .report-item {
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-item strong {
+            color: #4f6367;
+        }
+
+        .report-item a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .report-item a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4f6367;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #3a4c4d;
+        }
+
+        .no-reports {
+            color: #f44336;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reports-container">
+        <h1>Test Reports for <%= patient.name %></h1>
+
+        <% if (testReports && testReports.length > 0) { %>
+            <ul class="report-list">
+                <% testReports.forEach(report => { %>
+                    <li class="report-item">
+                        <strong>Report Type:</strong> <%= report.reportType %><br>
+                        <strong>Uploaded on:</strong>
+                        <%= report.reportDate ? new Date(report.reportDate).toLocaleDateString() : 'Date not available' %><br>
+                        <strong>File:</strong> <a href="/upload/<%= report.reportFile %>" target="_blank">View Report</a><br>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p class="no-reports">No reports available for this patient.</p>
+        <% } %>
+        
+        <a href="/patientdashboard" class="back-button">Back to Dashboard</a>
+    </div>
+
+</body>
+</html>
