@@ -57,43 +57,67 @@ Ensure you have the following installed:
    
    7. Access the application at http://localhost:3000.
 
+
 ## Features 🌟
+
    ### Admin Portal
+   
    **Doctor Verification:** Approve or reject doctor registration requests after reviewing uploaded credentials.
+   
    **Manage Appointments:** View all scheduled appointments.
+   
    **Upload Test Reports:** Upload test results and reports for patients.
+   
    **Emergency Form:** Provides a quick form for emergency cases for immediate medical attention.
    
    ### Doctor Portal
+   
    **Appointment Management:** Approve or reject patient appointments.
+   
    **Medical Diagnosis:** Add diagnosis and update patient records.
+   
    **Profile Management:** Update profile details, including experience, availability, and consultation timings.
+   
    **View Patient History:** Access the medical history of patients.
 
    ### Patient Portal
+   
    **Book Appointments:** Request appointments with available doctors.
+   
    **View Reports and History:** Access personal medical history and view test reports.
+   
    **Receive Notifications:** Get updates on appointment status, test results, and diagnoses.
    
    ### Additional Features
+   
    **Automated Reminders:** Sends reminders to patients with appointments scheduled for the day.
+   
    **Notifications:** Email notifications for various activities (e.g., appointment status changes, report uploads).
 
 ## Database Models 🔧
+
   ### Admin
+  
   *Fields:* Email, Password
+  
   Manages doctors and uploads test reports.
   
   ### Doctor
+  
   *Fields:* Name, Specialization, Credentials, Experience, Availability, Timings, Appointments
+  
   Can approve/reject appointments, add diagnoses, and view patient medical histories.
   
   ### Patient
+  
   *Fields:* Name, Email, Medical History, Appointments, Test Reports
+  
   Can book appointments, view medical history, and access test reports.
  
   ### Appointment
+  
   *Fields:* Patient ID, Doctor ID, Status (Pending/Approved/Rejected), Date, Time
+  
   Links patients and doctors, storing the status of each appointment.
   
 ## Folder Structure 📂
