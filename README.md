@@ -30,6 +30,7 @@ The MedLink is a web-based application that connects doctors, patients, and admi
    ### Notifications: Nodemailer, Node-cron
    ### Session Management: express-session
 
+
 ## Prerequisites ⚙️
 Ensure you have the following installed:
 - **Node.js**: [Download and install](https://nodejs.org/)
@@ -42,7 +43,7 @@ Ensure you have the following installed:
       cd doctor-patient-portal
    2. Install dependencies:
       ```bash
-     npm install
+      npm install
    
    3. Configure MongoDB connection: Update the MongoDB URL in the code as per your setup.
       
